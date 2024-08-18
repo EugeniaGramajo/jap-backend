@@ -21,7 +21,7 @@ export class UsersService {
       },
     });
 
-    return 'Usuario creado';
+    return 'Usuario creado correctamente';
   }
 
   async login(loginUserDto: LoginUserDto): Promise<ResponseLoginUserDto> {
