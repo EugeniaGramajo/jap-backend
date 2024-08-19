@@ -24,16 +24,17 @@ model User {
   password         String
   name             String
   lastName         String
-  adress           String?
+  address          String?
   productsComments ProductsComments[]
   createdAt        DateTime           @default(now())
 }
 
 model Category {
-  id          Int    @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String
   img_src     String
+  products    Products[]
 }
 
 enum Currency {
@@ -49,10 +50,13 @@ model Products {
   currency    Currency
   soldCount   Int
   image       String[]
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
 }
 
 model ProductsComments {
-  score       Int    @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
+  score       Int
   description String
   userId      String
   user        User   @relation(fields: [userId], references: [id])
