@@ -47,6 +47,7 @@ export class UsersService {
 
       return 'Usuario creado correctamente';
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException(
         'Hubo un problema al registrar el usuario.',
       );
@@ -75,6 +76,7 @@ export class UsersService {
         lastName: user.lastName,
       };
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException(
         'Hubo un problema al intentar iniciar sesión.',
       );
