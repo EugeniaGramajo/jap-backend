@@ -14,7 +14,7 @@ import { LoginUserDto, ResponseLoginUserDto } from 'src/DTOs/login.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async register(createUserDto: CreateUserDto): Promise<string> {
+  async register(createUserDto: CreateUserDto): Promise<object> {
     const { name, lastName, email, password } = createUserDto;
 
     if (!name || !lastName || !email || !password) {
@@ -45,7 +45,7 @@ export class UsersService {
         },
       });
 
-      return 'Usuario creado correctamente';
+      return { message: 'Usuario creado correctamente' };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException(
@@ -56,8 +56,15 @@ export class UsersService {
 
   async login(loginUserDto: LoginUserDto): Promise<ResponseLoginUserDto> {
     const { email, password } = loginUserDto;
+
+    if (!email) {
+      throw new BadRequestException('El correo electrónico es requerido.');
+    }
+
     try {
-      const user = await this.prisma.user.findUnique({ where: { email } });
+      const user = await this.prisma.user.findUnique({
+        where: { email },
+      });
 
       if (!user) {
         throw new UnauthorizedException(
@@ -68,7 +75,7 @@ export class UsersService {
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        throw new UnauthorizedException('La contraseña no es valida');
+        throw new UnauthorizedException('La contraseña no es válida.');
       }
 
       return {
@@ -76,7 +83,13 @@ export class UsersService {
         lastName: user.lastName,
       };
     } catch (error) {
-      console.log(error);
+      if (
+        error instanceof UnauthorizedException ||
+        error instanceof BadRequestException
+      ) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         'Hubo un problema al intentar iniciar sesión.',
       );

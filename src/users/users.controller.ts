@@ -9,7 +9,7 @@ export class UsersController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  async register(@Body() createUserDto: CreateUserDto): Promise<string> {
+  async register(@Body() createUserDto: CreateUserDto): Promise<object> {
     return await this.usersService.register(createUserDto);
   }
 
