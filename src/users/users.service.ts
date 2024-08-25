@@ -15,13 +15,14 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async register(createUserDto: CreateUserDto): Promise<object> {
-    const { name, lastName, email, password } = createUserDto;
+    const { name, lastName, password } = createUserDto;
 
+    let { email } = createUserDto;
     if (!name || !lastName || !email || !password) {
       throw new BadRequestException('Todos los campos son obligatorios.');
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    email = email.toLowerCase();
     if (!emailRegex.test(email)) {
       throw new BadRequestException(
         'El formato del correo electrónico es inválido.',
@@ -55,12 +56,13 @@ export class UsersService {
   }
 
   async login(loginUserDto: LoginUserDto): Promise<ResponseLoginUserDto> {
-    const { email, password } = loginUserDto;
+    const { password } = loginUserDto;
+    let { email } = loginUserDto;
 
     if (!email) {
       throw new BadRequestException('El correo electrónico es requerido.');
     }
-
+    email = email.toLowerCase();
     try {
       const user = await this.prisma.user.findUnique({
         where: { email },
