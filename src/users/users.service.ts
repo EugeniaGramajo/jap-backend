@@ -83,6 +83,7 @@ export class UsersService {
       return {
         name: user.name,
         lastName: user.lastName,
+        email: user.email,
       };
     } catch (error) {
       if (

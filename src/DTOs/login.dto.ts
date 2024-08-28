@@ -18,4 +18,8 @@ export class ResponseLoginUserDto {
   @IsString()
   @IsNotEmpty()
   lastName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  email: string;
 }
