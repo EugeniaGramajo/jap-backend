@@ -33,7 +33,7 @@ model Category {
   id          Int        @id @default(autoincrement())
   name        String
   description String
-  img_src     String
+  imgSrc      String
   products    Products[]
 }
 
@@ -43,7 +43,7 @@ enum Currency {
 }
 
 model Products {
-  id          Int      @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   name        String
   description String
   cost        Int
@@ -51,13 +51,16 @@ model Products {
   soldCount   Int
   image       String[]
   categoryId  Int
-  category    Category @relation(fields: [categoryId], references: [id])
+  catName     Category           @relation(fields: [categoryId], references: [id])
+  comments    ProductsComments[] @relation("ProductComments")
 }
 
 model ProductsComments {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   score       Int
   description String
   userId      String
-  user        User   @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  productId   Int
+  product     Products @relation("ProductComments", fields: [productId], references: [id])
 }
