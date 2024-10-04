@@ -16,8 +16,9 @@ export class CategoriesService {
         },
       },
     });
+
     return categories.map((e) => {
-      const productSolds = e.products.reduce(
+      const productSolds = e.products?.reduce(
         (sum, product) => sum + product.soldCount,
         0,
       );
