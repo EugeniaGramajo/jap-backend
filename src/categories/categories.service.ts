@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { GetCategoryDto } from './dto/get-category.dto';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return `This action returns all categories`;
-  }
+  async findAll(): Promise<GetCategoryDto[]> {
+    const categories = await this.prisma.category.findMany({
+      include: {
+        products: {
+          select: {
+            soldCount: true,
+          },
+        },
+      },
+    });
+    return categories.map((e) => {
+      const productSolds = e.products.reduce(
+        (sum, product) => sum + product.soldCount,
+        0,
+      );
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
-
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+      return {
+        id: e.id,
+        name: e.name,
+        description: e.description,
+        imgSrc: e.imgSrc,
+        productCount: productSolds.toString(),
+      };
+    });
   }
 }
