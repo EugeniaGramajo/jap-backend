@@ -21,7 +21,7 @@ export class ProductsService {
         },
       });
       const productsWithoutCategoryId = products.map((product) => {
-        return { ...product, categoryId: undefined }; // Esto lo elimina en la respuesta
+        return { ...product, categoryId: undefined };
       });
 
       return {

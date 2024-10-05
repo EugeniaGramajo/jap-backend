@@ -27,7 +27,7 @@ CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "imgSrc" TEXT NOT NULL,
+    "img_src" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
@@ -40,7 +40,7 @@ CREATE TABLE "Products" (
     "cost" INTEGER NOT NULL,
     "currency" "Currency" NOT NULL,
     "soldCount" INTEGER NOT NULL,
-    "image" TEXT[],
+    "image" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
 
     CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
