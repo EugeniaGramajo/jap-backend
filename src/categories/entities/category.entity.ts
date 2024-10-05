@@ -4,6 +4,6 @@ export interface Category {
   id: number;
   name: string;
   description: string;
-  imgSrc: string;
+  img_src: string;
   products: Products[];
 }

@@ -27,7 +27,7 @@ export class CategoriesService {
         id: e.id,
         name: e.name,
         description: e.description,
-        imgSrc: e.imgSrc,
+        imgSrc: e.img_src,
         productCount: productSolds.toString(),
       };
     });
