@@ -49,7 +49,7 @@ model Products {
   cost        Int
   currency    Currency
   soldCount   Int
-  image       String[]
+  image       String
   categoryId  Int
   catName     Category           @relation(fields: [categoryId], references: [id])
   comments    ProductsComments[] @relation("ProductComments")
