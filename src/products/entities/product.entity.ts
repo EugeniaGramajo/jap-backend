@@ -8,7 +8,7 @@ export interface Products {
   cost: number;
   currency: Currency;
   soldCount: number;
-  image: string[];
+  image: string;
   categoryId: number;
   catName: Category;
   comments: ProductsComment[];
