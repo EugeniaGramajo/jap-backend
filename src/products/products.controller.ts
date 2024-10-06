@@ -5,13 +5,13 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Get(':category')
+  @Get('cat/:category')
   findAll(@Param('category') category: string) {
     return this.productsService.findAll(category);
   }
 
-  @Get(':id')
+  @Get('info/:id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
   }
 }
