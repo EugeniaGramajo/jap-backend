@@ -14,7 +14,7 @@ export class ProductsCommentsService {
         data: {
           score,
           description,
-          userId,
+          userId: parseInt(userId),
           productId,
           dateTime: new Date(dateTime),
         },

@@ -19,12 +19,14 @@ model Group {
 }
 
 model User {
-  id               String             @id @default(uuid())
+  id               Int             @id @default(autoincrement())
   email            String             @unique
   password         String
   name             String
   lastName         String
   address          String?
+  phone            String?
+  image            String @default("https://res.cloudinary.com/dvdiiqe8e/image/upload/v1727303667/JAP-API/img_perfil_moq60c.png")
   productsComments ProductsComments[]
   createdAt        DateTime           @default(now())
 }
@@ -59,7 +61,7 @@ model ProductsComments {
   id          Int      @id @default(autoincrement())
   score       Int
   description String
-  userId      String?
+  userId      Int?
   user        User?     @relation(fields: [userId], references: [id])
   productId   Int
   dateTime    DateTime @default(now())

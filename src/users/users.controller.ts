@@ -1,7 +1,18 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Param,
+  ValidationPipe,
+  UsePipes,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { LoginUserDto, ResponseLoginUserDto } from 'src/DTOs/login.dto';
-import { CreateUserDto } from 'src/DTOs/register.dto';
+import { LoginUserDto, ResponseLoginUserDto } from 'src/users/dto/login.dto';
+import { CreateUserDto } from 'src/users/dto/register.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -18,5 +29,14 @@ export class UsersController {
     @Body() loginUserDto: LoginUserDto,
   ): Promise<ResponseLoginUserDto> {
     return await this.usersService.login(loginUserDto);
+  }
+
+  @Patch(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async updateProfile(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<string> {
+    return await this.usersService.updateProfile(updateUserDto, id);
   }
 }

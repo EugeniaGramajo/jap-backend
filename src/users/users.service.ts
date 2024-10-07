@@ -5,10 +5,11 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/DTOs/register.dto';
+import { CreateUserDto } from 'src/users/dto/register.dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { LoginUserDto, ResponseLoginUserDto } from 'src/DTOs/login.dto';
+import { LoginUserDto, ResponseLoginUserDto } from 'src/users/dto/login.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -95,6 +96,23 @@ export class UsersService {
 
       throw new InternalServerErrorException(
         'Hubo un problema al intentar iniciar sesión.',
+      );
+    }
+  }
+
+  async updateProfile(
+    updateUserDto: UpdateUserDto,
+    id: string,
+  ): Promise<string> {
+    try {
+      await this.prisma.user.update({
+        where: { id: parseInt(id) },
+        data: { ...updateUserDto },
+      });
+      return 'Datos actualizados correctamente!.';
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Hubo un error al actualizar los datos.',
       );
     }
   }
