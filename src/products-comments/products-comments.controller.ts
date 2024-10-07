@@ -3,13 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductsCommentsService } from './products-comments.service';
 import { CreateProductsCommentDto } from './dto/create-products-comment.dto';
-import { UpdateProductsCommentDto } from './dto/update-products-comment.dto';
 
 @Controller('products-comments')
 export class ProductsCommentsController {
@@ -18,26 +18,14 @@ export class ProductsCommentsController {
   ) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body() createProductsCommentDto: CreateProductsCommentDto) {
     return this.productsCommentsService.create(createProductsCommentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.productsCommentsService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsCommentsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateProductsCommentDto: UpdateProductsCommentDto,
-  ) {
-    return this.productsCommentsService.update(+id, updateProductsCommentDto);
+  findAll(@Param('id') id: string) {
+    return this.productsCommentsService.findAll(id);
   }
 
   @Delete(':id')

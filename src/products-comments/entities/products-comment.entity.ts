@@ -1,4 +1,3 @@
-import { Products } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/users.entities';
 
 export interface ProductsComment {
@@ -7,6 +6,6 @@ export interface ProductsComment {
   description: string;
   userId: string;
   user: User;
-  productId: number;
-  product: Products;
+  product: number;
+  dateTime: string;
 }
