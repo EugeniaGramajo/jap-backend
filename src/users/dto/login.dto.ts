@@ -22,4 +22,7 @@ export class ResponseLoginUserDto {
   @IsString()
   @IsNotEmpty()
   email: string;
+
+  image: string;
+  phone: string;
 }
