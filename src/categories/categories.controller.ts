@@ -9,7 +9,7 @@ export class CategoriesController {
   findAll() {
     return this.categoriesService.findAll();
   }
-  @Get()
+  @Get('/footer')
   footer() {
     return this.categoriesService.footer();
   }
