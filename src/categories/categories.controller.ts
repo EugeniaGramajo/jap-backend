@@ -9,4 +9,8 @@ export class CategoriesController {
   findAll() {
     return this.categoriesService.findAll();
   }
+  @Get()
+  footer() {
+    return this.categoriesService.footer();
+  }
 }

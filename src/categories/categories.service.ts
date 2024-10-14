@@ -32,4 +32,14 @@ export class CategoriesService {
       };
     });
   }
+
+  async footer(): Promise<GetCategoryDto[]> {
+    const categories = await this.findAll();
+    for (let i = categories.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [categories[i], categories[j]] = [categories[j], categories[i]];
+    }
+
+    return categories.slice(0, 6);
+  }
 }
