@@ -39,13 +39,9 @@ export class ProductsService {
   }
 
   async bestSellers(): Promise<ProductDto[]> {
-    const allProducts = await this.prisma.products.findMany({
-      orderBy: {
-        soldCount: 'desc',
-      },
-      take: 6,
-    });
-    return allProducts.map((e) => {
+    const allProducts = await this.prisma.products.findMany();
+    const random = allProducts.sort(() => 0.5 - Math.random()).slice(0, 6);
+    return random.map((e) => {
       return {
         id: e.id,
         name: e.name,
@@ -95,5 +91,20 @@ export class ProductsService {
       image: product.image,
       relatedProducts,
     };
+  }
+
+  async generalSearch(item: string): Promise<ProductDto[]> {
+    const normalizedItem = item
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    const productsFound = await this.prisma.$queryRaw<ProductDto[]>`
+    SELECT * FROM "products"
+    WHERE unaccent("title") ILIKE unaccent(${normalizedItem})
+    OR unaccent("description") ILIKE unaccent(${normalizedItem})
+    ORDER BY 
+      CASE WHEN unaccent("title") ILIKE unaccent(${normalizedItem}) THEN 1 ELSE 2 END
+  `;
+
+    return productsFound;
   }
 }

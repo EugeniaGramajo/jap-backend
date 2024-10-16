@@ -19,4 +19,9 @@ export class ProductsController {
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
   }
+
+  @Get('generalSearch/:item')
+  generalSearch(@Param('item') item: string) {
+    return this.productsService.generalSearch(item);
+  }
 }
