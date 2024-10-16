@@ -10,6 +10,11 @@ export class ProductsController {
     return this.productsService.findAll(category);
   }
 
+  @Get('bestSellers')
+  bestSellers() {
+    return this.productsService.bestSellers();
+  }
+
   @Get('info/:id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);

@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { GetProductsDto } from './dto/get-products.dto';
 import { ProductInfoDto } from './dto/product-info.dto';
 import { getRandomInt } from 'src/utils/mathRandom';
+import { ProductDto } from './dto/products.dto';
 
 @Injectable()
 export class ProductsService {
@@ -35,6 +36,26 @@ export class ProductsService {
       console.log(error);
       throw new Error('Could not retrieve products for the category');
     }
+  }
+
+  async bestSellers(): Promise<ProductDto[]> {
+    const allProducts = await this.prisma.products.findMany({
+      orderBy: {
+        soldCount: 'desc',
+      },
+      take: 6,
+    });
+    return allProducts.map((e) => {
+      return {
+        id: e.id,
+        name: e.name,
+        description: e.description,
+        cost: e.cost,
+        currency: e.currency,
+        soldCount: e.soldCount,
+        image: e.image[0],
+      };
+    });
   }
 
   async findOne(id: string): Promise<ProductInfoDto> {
