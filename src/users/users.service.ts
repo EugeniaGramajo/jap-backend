@@ -85,7 +85,7 @@ export class UsersService {
         name: user.name,
         lastName: user.lastName,
         email: user.email,
-        image: user.email,
+        image: user.image,
         phone: user.phone,
       };
     } catch (error) {
