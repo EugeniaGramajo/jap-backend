@@ -78,6 +78,8 @@ export class ProductsService {
         id: data.id,
         name: data.name,
         image: data.image[0],
+        cost: data.cost,
+        currency: data.currency,
       };
     });
 
