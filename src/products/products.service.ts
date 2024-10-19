@@ -65,11 +65,11 @@ export class ProductsService {
         categoryId: product.categoryId,
       },
     });
-    if (!allProducts || allProducts.length < 2) {
+    if (!allProducts || allProducts.length < 3) {
       allProducts = await this.prisma.products.findMany();
     }
     const random = new Set<number>();
-    while (random.size < 2) {
+    while (random.size < 3) {
       random.add(getRandomInt(allProducts.length));
     }
     const relatedProducts = Array.from(random).map((e) => {
