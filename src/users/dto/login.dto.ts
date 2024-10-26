@@ -11,6 +11,7 @@ export class LoginUserDto {
 }
 
 export class ResponseLoginUserDto {
+  id: number;
   @IsString()
   @IsNotEmpty()
   name: string;
